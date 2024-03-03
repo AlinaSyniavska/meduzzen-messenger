@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { auth } from "../../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+// import { auth } from "../../firebase";
+// import { useAuthState } from "react-firebase-hooks/auth";
 
 import { IMessage } from "../../interfaces";
 
@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const Message: FC<IProps> = ({message}) => {
-    const [user] = useAuthState(auth);
+    // const [user] = useAuthState(auth);
 
     return (
         <div
