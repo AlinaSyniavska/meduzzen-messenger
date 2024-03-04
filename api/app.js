@@ -4,7 +4,7 @@ const { config } = require('./configs');
 const express = require('express');
 const cors = require('cors');
 
-// const { chatsRouter, authRouter, userRouter } = require("./routes");
+const { authRouter, userRouter } = require("./routes");
 
 const app = express();
 
