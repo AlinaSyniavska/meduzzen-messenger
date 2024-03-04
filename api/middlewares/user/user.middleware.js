@@ -6,7 +6,7 @@ module.exports = {
         try {
             const {id} = req.params;
 
-            const user = await userService.findOne({_id: id});
+            const user = await userService.findOneById({id});
 
             if (!user) {
                 return next(new CustomError(`User with id ${id} not found`, 404));
@@ -23,7 +23,7 @@ module.exports = {
         try {
             const {email} = req.body;
 
-            const user = await userService.findOne({email});
+            const user = await userService.findOneByEmail({email});
 
             if (user) {
                 return next(new CustomError(`User with email ${email} is exist`, 409));

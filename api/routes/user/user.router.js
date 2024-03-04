@@ -1,6 +1,6 @@
-const {commonMiddleware, userMiddleware, authMiddleware} = require("../../middlewares");
-const {userValidator, queryValidator} = require("../../validators");
-const {userController} = require("../../controllers");
+const { commonMiddleware, userMiddleware } = require('../../middlewares');
+const { userValidator } = require('../../validators');
+const { userController } = require('../../controllers');
 const userRouter = require('express').Router();
 
 userRouter.get('/',
@@ -8,10 +8,9 @@ userRouter.get('/',
 userRouter.post('/',
     commonMiddleware.isDataValid(userValidator.newUserValidator),
     userMiddleware.isUserUniq,
-    userController.create);
+    userController.create,);
 
 userRouter.get('/:id',
-    commonMiddleware.isIdValid,
     userMiddleware.isUserPresent,
     userController.getById);
 

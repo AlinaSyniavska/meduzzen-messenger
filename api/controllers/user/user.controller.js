@@ -3,7 +3,7 @@ const { userService, passwordService } = require('../../services');
 module.exports = {
     getAll: async (req, res, next) => {
         try {
-            const users = await userService.findAll(req.query).exec();
+            const users = await userService.findAll();
 
             res.json({
                 data: users,
@@ -15,7 +15,7 @@ module.exports = {
 
     create: async (req, res, next) => {
         try {
-            const { email, password } = req.body;
+            const { password } = req.body;
 
             const hashPassword = await passwordService.hashPassword(password);
             const newUser = await userService.createOne({
