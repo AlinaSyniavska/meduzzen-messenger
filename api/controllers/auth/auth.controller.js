@@ -1,18 +1,28 @@
+const {
+    getFirestore,
+    collection,
+    addDoc,
+    deleteDoc,
+    doc
+} = require('firebase/firestore');
+
 const { passwordService, tokenService } = require('../../services');
-const { OAuth } = require('../../dataBase');
+const firebase = require("../../firebase");
+
+const db = getFirestore(firebase);
 
 module.exports = {
     login: async (req, res, next) => {
         try {
-            const { password: hashPassword, _id } = req.user;
+            const { password: hashPassword, id } = req.user;
             const { password } = req.body;
 
             await passwordService.comparePassword(hashPassword, password);
 
             const tokens = tokenService.generateAuthTokens();
 
-            await OAuth.create({
-                userId: _id,
+            await addDoc(collection(db, 'oauth'), {
+                userId: id,
                 ...tokens,
             });
 
@@ -27,11 +37,9 @@ module.exports = {
 
     logout: async (req, res, next) => {
         try {
-            // const { access_token } = req;
-            // const { email, name } = user;
             const { access_token } = req;
 
-            await OAuth.deleteOne({ access_token });
+            await deleteDoc(doc(db, 'oauth', access_token));
 
             res.sendStatus(204);
         } catch (e) {

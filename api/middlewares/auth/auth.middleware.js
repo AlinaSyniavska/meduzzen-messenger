@@ -1,8 +1,12 @@
+const { getFirestore, getDoc, doc } = require('firebase/firestore');
+
 const { authValidator } = require('../../validators');
 const { CustomError } = require('../../errors');
 const { userService, tokenService } = require('../../services');
 const { config } = require('../../configs');
-const { OAuth } = require('../../dataBase');
+const firebase = require('../../firebase');
+
+const db = getFirestore(firebase);
 
 module.exports = {
     isLoginBodyValid: (req, res, next) => {
@@ -24,10 +28,9 @@ module.exports = {
         try {
             const { email } = req.body;
 
-            const userByEmail = await userService.findOne({ email });
+            const userByEmail = await userService.findOneByEmail({ email });
 
             if (!userByEmail) {
-                // return next(new CustomError(`User with id ${email} not found`, 404));
                 return next(new CustomError('Wrong email or password'));
             }
 
@@ -49,16 +52,18 @@ module.exports = {
 
             tokenService.checkToken(accessToken);
 
-            const tokenInfo = await OAuth.findOne({
-                access_token: accessToken,
-            }).populate('userId');
+            const token = doc(db, 'oauth', accessToken);
+            const data = await getDoc(token);
+            if (data.exists()) {
+                res.status(200).send(data.data());
+            }
 
-            if (!tokenInfo) {
+            if (!token) {
                 return next(new CustomError('Token not valid', 401));
             }
 
-            req.access_token = tokenInfo.access_token;
-            req.user = tokenInfo.userId;
+            req.access_token = token.access_token;
+            req.user = token.userId;
 
             next();
         } catch (e) {

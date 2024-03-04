@@ -22,7 +22,7 @@ module.exports = {
         } else {
             users.forEach((doc) => {
                 const user = new User(
-                    doc.id,
+                    // doc.id,
                     doc.data().email,
                     doc.data().password,
                 );
