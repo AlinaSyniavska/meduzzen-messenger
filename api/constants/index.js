@@ -1,4 +1,2 @@
-module.exports = {
-    regexEnum: require('./regex.enum'),
-    tokenTypeEnum: require('./token-type.enum'),
-};
+export * from './regex.enum.js';
+export * from './token-type.enum.js';

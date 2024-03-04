@@ -1,5 +1,3 @@
-module.exports = {
-    passwordService: require('./auth/password.service'),
-    tokenService: require('./auth/token.service'),
-    userService: require('./user/user.service'),
-};
+export * from './auth/password.service.js';
+export * from './auth/token.service.js';
+export * from './user/user.service.js';

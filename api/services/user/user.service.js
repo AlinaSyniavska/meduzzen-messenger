@@ -1,22 +1,20 @@
-/*const {
+import {
     getFirestore,
     collection,
     addDoc,
     getDocs,
     doc,
     getDoc,
-} = require('firebase/firestore');*/
+} from 'firebase/firestore';
 
-const firestore = require('firebase/firestore');
+import User from "../../dataBase/User.js";
+import firebase from "../../firebase.js";
 
-const firebase = require('firebase');
-const { User } = require('../../dataBase');
+const db = getFirestore(firebase);
 
-const db = firestore.getFirestore(firebase);
-
-module.exports = {
+export const userService = {
     findAll: async () => {
-        const users = await firestore.getDocs(firestore.collection(db, 'users'));
+        const users = await getDocs(collection(db, 'users'));
         const usersArray = [];
 
         if (users.empty) {
@@ -45,11 +43,11 @@ module.exports = {
     findOneById: (params = {}) => {
         const { id } = params;
 
-        const user = firestore.doc(db, 'users', id);
-        return firestore.getDoc(user);
+        const user = doc(db, 'users', id);
+        return getDoc(user);
     },
 
     createOne: (data) => {
-        return firestore.addDoc(firestore.collection(db, 'users'), data);
+        return addDoc(collection(db, 'users'), data);
     },
 };

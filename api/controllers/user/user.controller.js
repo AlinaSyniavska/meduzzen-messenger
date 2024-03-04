@@ -1,6 +1,6 @@
-const { userService, passwordService } = require('../../services');
+import { passwordService, userService } from '../../services/index.js';
 
-module.exports = {
+export const userController = {
     getAll: async (req, res, next) => {
         try {
             const users = await userService.findAll();

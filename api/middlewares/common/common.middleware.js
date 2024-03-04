@@ -1,6 +1,6 @@
-const {CustomError} = require("../../errors");
+import CustomError from "../../errors/CustomError.js";
 
-module.exports = {
+export const commonMiddleware = {
     isDataValid: (validationSchema, dataType = 'body') => async (req, res, next) => {
         try {
             const {error, value} = validationSchema.validate(req[dataType]);

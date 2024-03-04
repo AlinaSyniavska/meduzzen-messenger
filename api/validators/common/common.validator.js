@@ -1,8 +1,8 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const { regexEnum } = require('../../constants');
+import { regexEnum } from '../../constants/index.js';
 
-module.exports = {
+export const commonValidator = {
     emailValidator: Joi.string().regex(regexEnum.EMAIL).lowercase().trim(true),
     passwordValidator: Joi.string().regex(regexEnum.PASSWORD),
 };

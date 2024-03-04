@@ -1,15 +1,14 @@
-// const { getFirestore, getDoc, doc } = require('firebase/firestore');
-const firestore = require('firebase/firestore');
+import { getFirestore, getDoc, doc } from 'firebase/firestore';
 
-const { authValidator } = require('../../validators');
-const { CustomError } = require('../../errors');
-const { userService, tokenService } = require('../../services');
-const { config } = require('../../configs');
-const firebase = require('../../firebase');
+import firebase from "../../firebase.js";
+import {authValidator} from "../../validators/index.js";
+import CustomError from "../../errors/CustomError.js";
+import {tokenService, userService} from "../../services/index.js";
+import {config} from "../../configs/index.js";
 
-const db = firestore.getFirestore(firebase);
+const db = getFirestore(firebase);
 
-module.exports = {
+export const authMiddleware = {
     isLoginBodyValid: (req, res, next) => {
         try {
             const { error, value } = authValidator.login.validate(req.body);
@@ -53,8 +52,8 @@ module.exports = {
 
             tokenService.checkToken(accessToken);
 
-            const token = firestore.doc(db, 'oauth', accessToken);
-            const data = await firestore.getDoc(token);
+            const token = doc(db, 'oauth', accessToken);
+            const data = await getDoc(token);
             if (data.exists()) {
                 res.status(200).send(data.data());
             }

@@ -1,15 +1,16 @@
-const jwt = require('jsonwebtoken');
+import pkg from 'jsonwebtoken';
+const { sign, verify } = pkg;
 
-const { config } = require('../../configs');
-const { CustomError } = require('../../errors');
-const { tokenTypeEnum } = require('../../constants');
+import CustomError from '../../errors/CustomError.js';
+import {tokenTypeEnum} from "../../constants/index.js";
+import {config} from "../../configs/index.js";
 
-module.exports = {
+export const tokenService = {
     generateAuthTokens: (payload = {}) => {
-        const access_token = jwt.sign(payload, config.ACCESS_TOKEN, {
+        const access_token = sign(payload, config.ACCESS_TOKEN, {
             expiresIn: '24h',
         });
-        const refresh_token = jwt.sign(payload, config.REFRESH_TOKEN, {
+        const refresh_token = sign(payload, config.REFRESH_TOKEN, {
             expiresIn: '30d',
         });
 
@@ -28,7 +29,7 @@ module.exports = {
             if (tokenType === tokenTypeEnum.REFRESH)
                 secret = config.REFRESH_TOKEN;
 
-            return jwt.verify(token, secret);
+            return verify(token, secret);
         } catch (e) {
             throw new CustomError('Token not valid', 401);
         }

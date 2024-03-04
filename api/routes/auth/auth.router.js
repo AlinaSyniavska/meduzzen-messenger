@@ -1,9 +1,9 @@
 import express from "express";
 
-export const authRouter = express.Router();
+import {authMiddleware} from "../../middlewares/index.js";
+import {authController} from "../../controllers/index.js";
 
-const { authController } = require('../../controllers');
-const { authMiddleware } = require('../../middlewares');
+export const authRouter = express.Router();
 
 authRouter.post('/login',
     authMiddleware.isLoginBodyValid,

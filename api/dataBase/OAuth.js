@@ -7,5 +7,5 @@ class OAuth {
     }
 }
 
-module.exports = OAuth;
+export default OAuth;
 

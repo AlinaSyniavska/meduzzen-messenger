@@ -1,7 +1,16 @@
-const fb = require("firebase/app");
+import * as dotenv from 'dotenv';
 
-const { config } = require('./configs');
+dotenv.config();
 
-const firebase = fb.initializeApp(config.firebaseConfig);
+import { initializeApp } from 'firebase/app';
 
-module.exports = firebase;
+const firebase = initializeApp({
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGING_SENDER_ID,
+    appId: process.env.APP_ID,
+});
+
+export default firebase;

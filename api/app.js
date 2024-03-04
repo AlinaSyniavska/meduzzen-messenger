@@ -1,11 +1,11 @@
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
 
-import {config} from "./configs/index.js";
-import {authRouter, userRouter,} from "./routes/index.js";
+import { config } from './configs/index.js';
+import { authRouter, userRouter } from './routes/index.js';
 
 const app = express();
 

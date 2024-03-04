@@ -1,9 +1,10 @@
-const express = require("express");
-export const userRouter = express.Router();
+import express from 'express';
 
-const { commonMiddleware, userMiddleware } = require('../../middlewares');
-const { userValidator } = require('../../validators');
-const { userController } = require('../../controllers');
+import { userController } from '../../controllers/index.js';
+import { userValidator } from '../../validators/index.js';
+import { commonMiddleware, userMiddleware } from '../../middlewares/index.js';
+
+export const userRouter = express.Router();
 
 userRouter.get('/',
     userController.getAll);
@@ -13,7 +14,5 @@ userRouter.post('/',
     userController.create,);
 
 userRouter.get('/:id',
-    userMiddleware.isUserPresent,
-    userController.getById);
+    userMiddleware.isUserPresent, userController.getById);
 
-module.exports = userRouter;

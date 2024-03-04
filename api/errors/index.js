@@ -1,3 +1,1 @@
-module.exports = {
-    CustomError: require('./CustomError'),
-}
+export * from './CustomError.js';

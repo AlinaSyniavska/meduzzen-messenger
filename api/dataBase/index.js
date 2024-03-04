@@ -1,4 +1,2 @@
-module.exports = {
-    User: require('./User'),
-    OAuth: require('./OAuth'),
-}
+export * from './OAuth.js';
+export * from './User.js';

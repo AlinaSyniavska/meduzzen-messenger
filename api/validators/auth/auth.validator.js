@@ -1,10 +1,10 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const { emailValidator, passwordValidator } = require('../common/common.validator');
+import { commonValidator } from '../common/common.validator.js';
 
-module.exports = {
+export const authValidator = {
     login: Joi.object({
-        email: emailValidator.required(),
-        password: passwordValidator.required(),
+        email: commonValidator.emailValidator.required(),
+        password: commonValidator.passwordValidator.required(),
     }),
 };

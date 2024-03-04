@@ -1,8 +1,3 @@
-module.exports = {
-    adminCommonValidator: require('./admin/admin.common.validator'),
-    adminProductValidator: require('./admin/admin.product.validator'),
-    authValidator: require('./auth/auth.validator'),
-    cartValidator: require('./cart/cart.validator'),
-    commonValidator: require('./common/common.validator'),
-    userValidator: require('./user/user.validator'),
-}
+export * from './auth/auth.validator.js';
+export * from './common/common.validator.js';
+export * from './user/user.validator.js';
