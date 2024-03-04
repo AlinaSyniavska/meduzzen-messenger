@@ -1,4 +1,5 @@
-const { getFirestore, getDoc, doc } = require('firebase/firestore');
+// const { getFirestore, getDoc, doc } = require('firebase/firestore');
+const firestore = require('firebase/firestore');
 
 const { authValidator } = require('../../validators');
 const { CustomError } = require('../../errors');
@@ -6,7 +7,7 @@ const { userService, tokenService } = require('../../services');
 const { config } = require('../../configs');
 const firebase = require('../../firebase');
 
-const db = getFirestore(firebase);
+const db = firestore.getFirestore(firebase);
 
 module.exports = {
     isLoginBodyValid: (req, res, next) => {
@@ -52,8 +53,8 @@ module.exports = {
 
             tokenService.checkToken(accessToken);
 
-            const token = doc(db, 'oauth', accessToken);
-            const data = await getDoc(token);
+            const token = firestore.doc(db, 'oauth', accessToken);
+            const data = await firestore.getDoc(token);
             if (data.exists()) {
                 res.status(200).send(data.data());
             }

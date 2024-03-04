@@ -1,7 +1,7 @@
-const { initializeApp } = require('firebase/app');
+const fb = require("firebase/app");
 
-import { config } from './configs';
+const { config } = require('./configs');
 
-const firebase = initializeApp(config.firebaseConfig);
+const firebase = fb.initializeApp(config.firebaseConfig);
 
-export default firebase;
+module.exports = firebase;
