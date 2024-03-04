@@ -1,13 +1,13 @@
-const {authValidator} = require("../../validators");
-const {CustomError} = require("../../errors");
-const {userService, tokenService} = require("../../services");
-const {config} = require("../../configs");
-const {OAuth, ActionToken} = require("../../dataBase");
+const { authValidator } = require('../../validators');
+const { CustomError } = require('../../errors');
+const { userService, tokenService } = require('../../services');
+const { config } = require('../../configs');
+const { OAuth } = require('../../dataBase');
 
 module.exports = {
     isLoginBodyValid: (req, res, next) => {
         try {
-            const {error, value} = authValidator.login.validate(req.body);
+            const { error, value } = authValidator.login.validate(req.body);
 
             if (error) {
                 return next(new CustomError('Wrong email or password'));
@@ -22,9 +22,9 @@ module.exports = {
 
     isUserPresentForAuth: async (req, res, next) => {
         try {
-            const {email} = req.body;
+            const { email } = req.body;
 
-            const userByEmail = await userService.findOne({email});
+            const userByEmail = await userService.findOne({ email });
 
             if (!userByEmail) {
                 // return next(new CustomError(`User with id ${email} not found`, 404));
@@ -49,7 +49,9 @@ module.exports = {
 
             tokenService.checkToken(accessToken);
 
-            const tokenInfo = await OAuth.findOne({access_token: accessToken}).populate('userId');
+            const tokenInfo = await OAuth.findOne({
+                access_token: accessToken,
+            }).populate('userId');
 
             if (!tokenInfo) {
                 return next(new CustomError('Token not valid', 401));
@@ -63,5 +65,4 @@ module.exports = {
             next(e);
         }
     },
-
 };

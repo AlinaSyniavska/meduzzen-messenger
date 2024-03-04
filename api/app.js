@@ -14,9 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 app.options('*', cors()); // include before other routes
 app.use(cors(_configureCors()));
 
-/*app.use('/auth', authRouter);
-app.use('/chats', chatsRouter);
-app.use('/users', usersRouter);*/
+app.use('/auth', authRouter);
+// app.use('/chats', chatsRouter);
+app.use('/users', userRouter);
 
 app.use('*', (req, res) => {
     res.status(404).json('Route not found');

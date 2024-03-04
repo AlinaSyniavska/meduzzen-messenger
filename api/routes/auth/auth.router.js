@@ -5,7 +5,7 @@ const {authMiddleware} = require("../../middlewares");
 
 authRouter.post('/login',
     authMiddleware.isLoginBodyValid,
-    // authMiddleware.isUserPresentForAuth,
+    authMiddleware.isUserPresentForAuth,
     authController.login);
 
 authRouter.post('/logout',
