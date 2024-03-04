@@ -1,7 +1,9 @@
+const express = require("express");
+export const userRouter = express.Router();
+
 const { commonMiddleware, userMiddleware } = require('../../middlewares');
 const { userValidator } = require('../../validators');
 const { userController } = require('../../controllers');
-const userRouter = require('express').Router();
 
 userRouter.get('/',
     userController.getAll);

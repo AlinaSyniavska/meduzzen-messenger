@@ -1,4 +1,6 @@
-const authRouter = require('express').Router();
+import express from "express";
+
+export const authRouter = express.Router();
 
 const { authController } = require('../../controllers');
 const { authMiddleware } = require('../../middlewares');
@@ -11,5 +13,3 @@ authRouter.post('/login',
 authRouter.post('/logout',
     authMiddleware.checkAccessToken,
     authController.logout,);
-
-module.exports = authRouter;

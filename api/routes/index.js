@@ -1,4 +1,2 @@
-module.exports = {
-    authRouter: require('./auth/auth.router'),
-    userRouter: require('./user/user.router'),
-};
+export * from './auth/auth.router.js';
+export * from './user/user.router.js';

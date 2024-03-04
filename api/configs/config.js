@@ -1,4 +1,4 @@
-module.exports = {
+export const config = {
     PORT: process.env.PORT || 5001,
     NODE_ENV: process.env.NODE_ENV,
     ACCESS_TOKEN: process.env.ACCESS_TOKEN || 'access_token',
