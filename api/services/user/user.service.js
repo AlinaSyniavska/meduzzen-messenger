@@ -26,7 +26,7 @@ export const userService = {
                     doc.data().email,
                     doc.data().password,
                 );
-                usersArray.push(user);
+                usersArray.push({...user});
             });
         }
 
@@ -36,14 +36,9 @@ export const userService = {
     findOneByEmail: async (params = {}) => {
         const { email } = params;
 
-        const user = doc(db, 'users', email);
-        const res = await getDoc(user);
+        const usersArray = await userService.findAll();
 
-        console.log('************');
-        getDoc(user).then((value) => console.log(value._document));
-        console.log('************');
-
-        return getDoc(user);
+        return usersArray.find(item => item.email === email);
     },
 
     findOneById: async (params = {}) => {
