@@ -25,10 +25,6 @@ export const userMiddleware = {
 
             const user = await userService.findOneByEmail({ email });
 
-            console.log('-----------');
-            console.log(user);
-            console.log('-----------');
-
             if (user) {
                 return next(new CustomError(`User with email ${email} is exist`, 409),);
             }

@@ -7,8 +7,8 @@ import {
     getDoc,
 } from 'firebase/firestore';
 
-import User from "../../dataBase/User.js";
-import firebase from "../../firebase.js";
+import User from '../../dataBase/User.js';
+import firebase from '../../firebase.js';
 
 const db = getFirestore(firebase);
 
@@ -22,7 +22,7 @@ export const userService = {
         } else {
             users.forEach((doc) => {
                 const user = new User(
-                    // doc.id,
+                    doc.id,
                     doc.data().email,
                     doc.data().password,
                 );
@@ -33,21 +33,31 @@ export const userService = {
         return usersArray;
     },
 
-    findOneByEmail: (params = {}) => {
+    findOneByEmail: async (params = {}) => {
         const { email } = params;
 
         const user = doc(db, 'users', email);
+        const res = await getDoc(user);
+
+        console.log('************');
+        getDoc(user).then((value) => console.log(value._document));
+        console.log('************');
+
         return getDoc(user);
     },
 
-    findOneById: (params = {}) => {
+    findOneById: async (params = {}) => {
         const { id } = params;
 
         const user = doc(db, 'users', id);
-        return getDoc(user);
+        const res = await getDoc(user);
+
+        return new User(res.id, res.data().email, res.data().password);
+        // return res._document.data.value.mapValue.fields;
     },
 
-    createOne: (data) => {
-        return addDoc(collection(db, 'users'), data);
+    createOne: async (data) => {
+        const res = await addDoc(collection(db, 'users'), data);
+        return res._key.path.lastSegment();
     },
 };
