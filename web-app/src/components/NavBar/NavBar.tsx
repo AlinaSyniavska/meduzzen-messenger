@@ -1,13 +1,19 @@
-import React, { FC, useState } from "react";
+import React, {Dispatch, FC, SetStateAction, useState} from "react";
 
 import style from './NavBar.module.css';
 import AuthForm from "../AuthForm/AuthForm.tsx";
 import {actions} from "../../constants";
+import {authService} from "../../services";
+import {IUser} from "../../interfaces";
 
-const NavBar: FC = () => {
+interface IProps {
+    user: IUser | null;
+    setUser: Dispatch<SetStateAction<IUser | null>>;
+}
+
+const NavBar: FC<IProps> = ({user, setUser}) => {
     const [open, setOpen] = useState(false);
     const [action, setAction] = useState(actions.login);
-    const [user, setUser] = useState(false);
 
     const signUp = () => {
         setAction(actions.register);
@@ -18,35 +24,54 @@ const NavBar: FC = () => {
         setAction(actions.login);
         setOpen(true);
     };
-    const signOut = () => {
-        setUser(false);
+
+    const signOut = async () => {
+        const accessToken = localStorage.getItem('access') as string;
+
+        try {
+            await authService.logout(accessToken);
+            localStorage.removeItem('userId');
+            localStorage.removeItem('access');
+            localStorage.removeItem('refresh');
+            setUser(null);
+        } catch (e) {
+            console.error('Sign Out failed', e);
+        }
     };
 
     return (
-      <React.Fragment>
-        <nav className="nav-bar">
-            <h1>Meduzzen Chat</h1>
-            <div>
-                {user
-              ? (<button onClick={signOut} className="sign-out" type="button">
-                  Sign Out
-              </button>)
-              : (<div className={style.btnContainer}>
-                    <button className="sign-in" onClick={signUp}>
-                        Sign Up
-                    </button>
-                    <button className="sign-in" onClick={signIn}>
-                        Sign In
-                    </button>
+        <React.Fragment>
+            <nav className="nav-bar">
+                <h1>Meduzzen Chat</h1>
+                <div>
+                    {user ? (
+                        <button
+                            onClick={signOut}
+                            className="sign-out"
+                            type="button"
+                        >
+                            Sign Out
+                        </button>
+                    ) : (
+                        <div className={style.btnContainer}>
+                            <button className="sign-in" onClick={signUp}>
+                                Sign Up
+                            </button>
+                            <button className="sign-in" onClick={signIn}>
+                                Sign In
+                            </button>
+                        </div>
+                    )}
                 </div>
-              )
-            }
-            </div>
-        </nav>
+            </nav>
 
-
-        <AuthForm isOpen={open} setOpen={setOpen} action={action}/>
-      </React.Fragment>
+            <AuthForm
+                isOpen={open}
+                setOpen={setOpen}
+                action={action}
+                setUser={setUser}
+            />
+        </React.Fragment>
     );
 };
 

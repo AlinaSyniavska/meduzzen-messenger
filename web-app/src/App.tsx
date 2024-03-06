@@ -1,17 +1,16 @@
-import { FC } from 'react';
-// import { useAuthState } from 'react-firebase-hooks/auth';
+import {FC, useState} from 'react';
 
 import './App.css';
 import { ChatBox, NavBar, Welcome } from './components';
-// import {auth} from "./firebase.ts";
+import {IUser} from "./interfaces";
 
 const App: FC = () => {
-    // const [user] = useAuthState(auth);
-  const user = false;
+
+  const [user, setUser] = useState<IUser | null>(null);
 
     return (
         <div className="App">
-            <NavBar />
+            <NavBar user={user} setUser={setUser}/>
             {!user ? <Welcome /> : <ChatBox />}
         </div>
     );

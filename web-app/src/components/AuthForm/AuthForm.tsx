@@ -17,9 +17,10 @@ interface IProps {
     isOpen: boolean,
     setOpen: React.Dispatch<React.SetStateAction<boolean>>,
     action: string,
+    setUser: React.Dispatch<React.SetStateAction<IUser | null>>,
 }
 
-const AuthForm: FC<IProps> = ({ isOpen, setOpen, action }) => {
+const AuthForm: FC<IProps> = ({ isOpen, setOpen, action, setUser }) => {
     const signUp = async (user: IUser) => {
         try {
             const id = (await userService.create(user)).data;
@@ -31,11 +32,12 @@ const AuthForm: FC<IProps> = ({ isOpen, setOpen, action }) => {
 
     const signIn = async (user: IUser) => {
         try {
-            const id = (await authService.login(user)).data;
+            const res = (await authService.login(user)).data;
+            setUser(res.user as IUser);
 
-            console.log(id);
-
-            localStorage.setItem("userId", id.user?.id as string);
+            localStorage.setItem("userId", res.user?.id as string);
+            localStorage.setItem("access", res.access_token);
+            localStorage.setItem("refresh", res.refresh_token);
         } catch (e) {
             console.error('Sign In failed', e);
         }
