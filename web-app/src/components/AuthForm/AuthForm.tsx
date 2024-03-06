@@ -25,6 +25,8 @@ const AuthForm: FC<IProps> = ({ isOpen, setOpen, action, setUser }) => {
         try {
             const id = (await userService.create(user)).data;
             console.log(id);
+
+            await signIn(user);
         } catch (e) {
             console.error('Registration failed', e);
         }
