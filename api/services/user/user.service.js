@@ -41,11 +41,11 @@ export const userService = {
         const collectionRef = collection(db, 'users');
         const q = query(collectionRef, where('email', '==', email));
         const docSnap = await getDocs(q);
-        /*        docSnap.forEach((doc) => {
+/*        docSnap.forEach((doc) => {
             console.log(doc.data(), doc.id);
         });*/
 
-        if (!docSnap.length) {
+        if (!docSnap.docs[0]) {
             return null;
         }
 

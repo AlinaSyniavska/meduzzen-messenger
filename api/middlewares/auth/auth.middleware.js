@@ -1,10 +1,9 @@
-import { getFirestore, getDoc, doc } from 'firebase/firestore';
+import {getFirestore, collection, query, where, getDocs} from 'firebase/firestore';
 
 import firebase from "../../firebase.js";
 import {authValidator} from "../../validators/index.js";
 import CustomError from "../../errors/CustomError.js";
 import {tokenService, userService} from "../../services/index.js";
-import {config} from "../../configs/index.js";
 
 const db = getFirestore(firebase);
 
@@ -44,7 +43,7 @@ export const authMiddleware = {
 
     checkAccessToken: async (req, res, next) => {
         try {
-            const accessToken = req.get(config.AUTHORIZATION);
+            const accessToken = req.get(process.env.AUTHORIZATION);
 
             if (!accessToken) {
                 return next(new CustomError('No token', 401));
@@ -52,18 +51,18 @@ export const authMiddleware = {
 
             tokenService.checkToken(accessToken);
 
-            const token = doc(db, 'oauth', accessToken);
-            const data = await getDoc(token);
-            if (data.exists()) {
-                res.status(200).send(data.data());
+            const collectionRef = collection(db, 'oauth');
+            const q = query(collectionRef, where('access_token', '==', accessToken));
+            const docSnap = await getDocs(q);
+
+            if (!docSnap.docs[0]) {
+                return next(new CustomError('Token not found', 401));
             }
 
-            if (!token) {
-                return next(new CustomError('Token not valid', 401));
-            }
+            const token = docSnap.docs[0];
 
-            req.access_token = token.access_token;
-            req.user = token.userId;
+            req.access_token = token.data().access_token;
+            req.user = token.data().userId;
 
             next();
         } catch (e) {

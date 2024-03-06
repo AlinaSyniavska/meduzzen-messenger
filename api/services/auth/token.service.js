@@ -7,6 +7,11 @@ import {config} from "../../configs/index.js";
 
 export const tokenService = {
     generateAuthTokens: (payload = {}) => {
+
+
+        console.log('----- 1')
+        console.log(config.ACCESS_TOKEN)
+
         const access_token = sign(payload, config.ACCESS_TOKEN, {
             expiresIn: '24h',
         });
@@ -24,8 +29,12 @@ export const tokenService = {
         try {
             let secret;
 
+            console.log('----- 2')
+            console.log(config.ACCESS_TOKEN)
+
             if (tokenType === tokenTypeEnum.ACCESS)
                 secret = config.ACCESS_TOKEN;
+                // secret = process.env.ACCESS_TOKEN;
             if (tokenType === tokenTypeEnum.REFRESH)
                 secret = config.REFRESH_TOKEN;
 
