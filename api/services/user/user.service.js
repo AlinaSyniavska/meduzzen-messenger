@@ -5,6 +5,8 @@ import {
     getDocs,
     doc,
     getDoc,
+    query,
+    where,
 } from 'firebase/firestore';
 
 import User from '../../dataBase/User.js';
@@ -26,7 +28,7 @@ export const userService = {
                     doc.data().email,
                     doc.data().password,
                 );
-                usersArray.push({...user});
+                usersArray.push({ ...user });
             });
         }
 
@@ -36,9 +38,21 @@ export const userService = {
     findOneByEmail: async (params = {}) => {
         const { email } = params;
 
-        const usersArray = await userService.findAll();
+        const collectionRef = collection(db, 'users');
+        const q = query(collectionRef, where('email', '==', email));
+        const docSnap = await getDocs(q);
+        /*        docSnap.forEach((doc) => {
+            console.log(doc.data(), doc.id);
+        });*/
 
-        return usersArray.find(item => item.email === email);
+        if (!docSnap.length) {
+            return null;
+        }
+
+        const res = docSnap.docs[0];
+        const user = new User(res.id, res.data().email, res.data().password);
+
+        return { ...user };
     },
 
     findOneById: async (params = {}) => {

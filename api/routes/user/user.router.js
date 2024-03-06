@@ -14,5 +14,6 @@ userRouter.post('/',
     userController.create,);
 
 userRouter.get('/:id',
-    userMiddleware.isUserPresent, userController.getById);
+    userMiddleware.isUserPresent,
+    userController.getById);
 
