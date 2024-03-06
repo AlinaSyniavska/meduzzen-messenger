@@ -2,17 +2,21 @@ import React, { FC, useState } from "react";
 
 import style from './NavBar.module.css';
 import AuthForm from "../AuthForm/AuthForm.tsx";
+import {actions} from "../../constants";
 
 const NavBar: FC = () => {
     const [open, setOpen] = useState(false);
+    const [action, setAction] = useState(actions.login);
     const [user, setUser] = useState(false);
 
     const signUp = () => {
-      setOpen(true);
+        setAction(actions.register);
+        setOpen(true);
     };
 
     const signIn = () => {
-        setUser(true);
+        setAction(actions.login);
+        setOpen(true);
     };
     const signOut = () => {
         setUser(false);
@@ -41,7 +45,7 @@ const NavBar: FC = () => {
         </nav>
 
 
-        <AuthForm isOpen={open} setOpen={setOpen}/>
+        <AuthForm isOpen={open} setOpen={setOpen} action={action}/>
       </React.Fragment>
     );
 };
