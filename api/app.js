@@ -31,7 +31,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(config.PORT, () => {
-    console.log(`Started on port ${config.PORT}`);
+    console.log(`Started on port ${process.env.PORT}`);
 });
 
 function _configureCors() {

@@ -3,19 +3,13 @@ const { sign, verify } = pkg;
 
 import CustomError from '../../errors/CustomError.js';
 import {tokenTypeEnum} from "../../constants/index.js";
-import {config} from "../../configs/index.js";
 
 export const tokenService = {
     generateAuthTokens: (payload = {}) => {
-
-
-        console.log('----- 1')
-        console.log(config.ACCESS_TOKEN)
-
-        const access_token = sign(payload, config.ACCESS_TOKEN, {
+        const access_token = sign(payload, process.env.ACCESS_TOKEN, {
             expiresIn: '24h',
         });
-        const refresh_token = sign(payload, config.REFRESH_TOKEN, {
+        const refresh_token = sign(payload, process.env.REFRESH_TOKEN, {
             expiresIn: '30d',
         });
 
@@ -29,14 +23,11 @@ export const tokenService = {
         try {
             let secret;
 
-            console.log('----- 2')
-            console.log(config.ACCESS_TOKEN)
-
             if (tokenType === tokenTypeEnum.ACCESS)
-                secret = config.ACCESS_TOKEN;
+                secret = process.env.ACCESS_TOKEN;
                 // secret = process.env.ACCESS_TOKEN;
             if (tokenType === tokenTypeEnum.REFRESH)
-                secret = config.REFRESH_TOKEN;
+                secret = process.env.REFRESH_TOKEN;
 
             return verify(token, secret);
         } catch (e) {
