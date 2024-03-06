@@ -3,9 +3,14 @@ import {FC, useState} from "react";
 // import { useAuthState } from "react-firebase-hooks/auth";
 // import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
 
+import style from './NavBar.module.css';
+
 const NavBar: FC = () => {
     const [user, setUser] = useState(false);
 
+    const signUp = () => {
+        // setUser(true);
+    };
     const signIn = () => {
         setUser(true);
     };
@@ -16,16 +21,24 @@ const NavBar: FC = () => {
     return (
         <nav className="nav-bar">
             <h1>Meduzzen Chat</h1>
-            {user
-                ? (<button onClick={signOut} className="sign-out" type="button">
-                    Sign Out
-                </button>)
-                : (<button className="sign-in" onClick={signIn}>
-                    Sign In
-                </button>)
+            <div>
+                {user
+              ? (<button onClick={signOut} className="sign-out" type="button">
+                  Sign Out
+              </button>)
+              : (<div className={style.btnContainer}>
+                    <button className="sign-in" onClick={signUp}>
+                        Sign Up
+                    </button>
+                    <button className="sign-in" onClick={signIn}>
+                        Sign In
+                    </button>
+                </div>
+              )
             }
+            </div>
         </nav>
     );
 };
 
-export { NavBar };
+export {NavBar};

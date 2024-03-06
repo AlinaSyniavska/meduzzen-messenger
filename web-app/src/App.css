@@ -55,6 +55,9 @@ input {
     background-color: #1c2c4c;
     font-weight: 600;
 }
+.dark-sign-in {
+    border: 1px solid #88dded;
+}
 
 /* welcome page */
 .welcome {
