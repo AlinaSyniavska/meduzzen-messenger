@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
-import { auth, db } from "../../firebase";
+/*import { db } from "../../firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { User } from "firebase/auth";
+import { User } from "firebase/auth";*/
 
 interface IProps {
     scroll: React.MutableRefObject<any>,
@@ -17,7 +17,7 @@ const SendMessage: FC<IProps> = ({scroll}) => {
             return;
         }
 
-        const {uid, displayName, photoURL} = auth.currentUser as User;
+        /*const {uid, displayName, photoURL} = auth.currentUser as User;
         await addDoc(collection(db, "messages"), {
             text: message,
             name: displayName,
@@ -25,7 +25,7 @@ const SendMessage: FC<IProps> = ({scroll}) => {
             createdAt: serverTimestamp(),
             uid,
         });
-        setMessage("");
+        setMessage("");*/
 
         scroll.current.scrollIntoView({ behavior: "smooth" });
     }

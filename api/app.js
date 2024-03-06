@@ -30,7 +30,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(config.PORT, () => {
+app.listen(process.env.PORT, () => {
     console.log(`Started on port ${process.env.PORT}`);
 });
 
