@@ -28,6 +28,7 @@ export const chatService = {
                 const user = new Message(
                     doc.id,
                     doc.data().userId,
+                    doc.data().userName,
                     doc.data().text,
                     doc.data().attachedFiles,
                     doc.data().createdAt,
@@ -45,7 +46,7 @@ export const chatService = {
         const message = doc(db, 'chats', id);
         const res = await getDoc(message);
 
-        return new Message(res.id, res.data().userId, res.data().text, res.data().attachedFiles);
+        return new Message(res.id, res.data().userId, res.data().userName, res.data().text, res.data().attachedFiles);
     },
 
     createOne: async (data) => {
