@@ -7,7 +7,7 @@ import {tokenTypeEnum} from "../../constants/index.js";
 export const tokenService = {
     generateAuthTokens: (payload = {}) => {
         const access_token = sign(payload, process.env.ACCESS_TOKEN, {
-            expiresIn: '24h',
+            expiresIn: '7d',
         });
         const refresh_token = sign(payload, process.env.REFRESH_TOKEN, {
             expiresIn: '30d',

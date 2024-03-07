@@ -25,6 +25,7 @@ export const userService = {
             users.forEach((doc) => {
                 const user = new User(
                     doc.id,
+                    doc.data().name,
                     doc.data().email,
                     doc.data().password,
                 );
@@ -50,7 +51,7 @@ export const userService = {
         }
 
         const res = docSnap.docs[0];
-        const user = new User(res.id, res.data().email, res.data().password);
+        const user = new User(res.id, res.data().name, res.data().email, res.data().password);
 
         return { ...user };
     },
@@ -61,7 +62,7 @@ export const userService = {
         const user = doc(db, 'users', id);
         const res = await getDoc(user);
 
-        return new User(res.id, res.data().email, res.data().password);
+        return new User(res.id, res.data().name, res.data().email, res.data().password);
         // return res._document.data.value.mapValue.fields;
     },
 

@@ -1,37 +1,30 @@
-import { FC, useEffect, useRef, useState } from "react";
-import {
-    query,
-    collection,
-    orderBy,
-    onSnapshot,
-    limit,
-} from "firebase/firestore";
-import { db } from "../../firebase";
-import { Unsubscribe } from "firebase/auth";
+import {FC, useRef} from "react";
 
 import { Message } from "../Message/Message";
 import { SendMessage } from "../SendMessage/SendMessage";
-import { IMessage } from "../../interfaces";
+import {useGetMessagesQuery} from "../../store";
+import style from './ChatBox.module.css';
 
 const ChatBox: FC = () => {
-    const [messages, setMessages] = useState<IMessage[]>([]);
-    const scroll = useRef(null);
+  const scroll = useRef<any>(null);
+  const {data: messages = [], isLoading, isFetching, isError, error,} = useGetMessagesQuery();
 
-    useEffect((): Unsubscribe => {
-        const q = query(
-            collection(db, "messages"),
-            orderBy("createdAt"),
-            limit(50)
+    if (isLoading || isFetching) {
+        return (
+            <div className={style.text}>
+                Loading... <span ref={scroll}></span>
+            </div>
         );
-        const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
-            let messages = [] as IMessage[];
-            QuerySnapshot.forEach((doc) => {
-                messages.push({...doc.data(), id: doc.id} as IMessage);
-            });
-            setMessages(messages);
-        });
-        return () => unsubscribe;
-    }, [])
+    }
+
+  if (isError) {
+      console.log({ error });
+      return (
+          <div className={`${style.text}, ${style.error}`}>
+              Error was received...<span ref={scroll}></span>
+          </div>
+      );
+  }
 
     return (
         <main className="chat-box">
@@ -40,9 +33,10 @@ const ChatBox: FC = () => {
                     <Message key={message.id} message={message}/>
                 ))}
             </div>
-            {/* when a new message enters the chat, the screen scrolls down to the scroll div */}
+
             <span ref={scroll}></span>
             <SendMessage scroll={scroll} />
+            {/*<SendMessage />*/}
         </main>
     );
 };

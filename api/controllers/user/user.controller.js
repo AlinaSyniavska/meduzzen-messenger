@@ -5,9 +5,9 @@ export const userController = {
         try {
             const users = await userService.findAll();
 
-            res.json({
-                data: users,
-            });
+            res.json([
+                ...users,
+            ]);
         } catch (e) {
             next(e);
         }

@@ -1,34 +1,35 @@
-import React, { FC, useState } from "react";
-import { auth, db } from "../../firebase";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { User } from "firebase/auth";
+import React, { FC, useState } from 'react';
+
+import { useAddMessageMutation } from '../../store';
 
 interface IProps {
-    scroll: React.MutableRefObject<any>,
+    scroll: React.MutableRefObject<any>;
 }
 
-const SendMessage: FC<IProps> = ({scroll}) => {
+const SendMessage: FC<IProps> = ({ scroll }) => {
+// const SendMessage: FC<IProps> = () => {
+    const [addMessage, { isLoading }] = useAddMessageMutation();
+
     const [message, setMessage] = useState<string>('');
 
     const sendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (message.trim() === "") {
-            alert("Enter valid message");
+        if (message.trim() === '') {
+            alert('Enter valid message');
             return;
         }
 
-        const {uid, displayName, photoURL} = auth.currentUser as User;
-        await addDoc(collection(db, "messages"), {
+        await addMessage({
+            userId: localStorage.getItem('userId'),
+            userName: localStorage.getItem('userName'),
             text: message,
-            name: displayName,
-            avatar: photoURL,
-            createdAt: serverTimestamp(),
-            uid,
+            attachedFiles: [],
         });
-        setMessage("");
 
-        scroll.current.scrollIntoView({ behavior: "smooth" });
-    }
+        setMessage('');
+
+        scroll.current.scrollIntoView({ behavior: 'smooth' });
+    };
 
     return (
         <form onSubmit={(event) => sendMessage(event)} className="send-message">
@@ -45,6 +46,7 @@ const SendMessage: FC<IProps> = ({scroll}) => {
                 onChange={(e) => setMessage(e.target.value)}
             />
             <button type="submit">Send</button>
+            {isLoading && ' Loading...'}
         </form>
     );
 };
