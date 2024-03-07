@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, {FC, useState} from 'react';
 import {
     Button,
     Dialog,
@@ -12,6 +12,8 @@ import {
 import {authService, userService} from '../../services';
 import { IUser } from '../../interfaces';
 import {actions} from "../../constants";
+import Error from "../Error/Error.tsx";
+import useModal from "../../hooks/useModal.tsx";
 
 interface IProps {
     isOpen: boolean,
@@ -21,14 +23,18 @@ interface IProps {
 }
 
 const AuthForm: FC<IProps> = ({ isOpen, setOpen, action, setUser }) => {
+    const { isModalOpen, toggle } = useModal();
+    const [error, setError] = useState<string>('');
+
     const signUp = async (user: IUser) => {
         try {
             const id = (await userService.create(user)).data;
             console.log(id);
 
             await signIn(user);
-        } catch (e) {
-            console.error('Registration failed', e);
+        } catch (e: any) {
+            setError(`Registration failed. ${e.response.data.error}`);
+            toggle();
         }
     };
 
@@ -40,12 +46,14 @@ const AuthForm: FC<IProps> = ({ isOpen, setOpen, action, setUser }) => {
             localStorage.setItem("userId", res.user?.id as string);
             localStorage.setItem("access", res.access_token);
             localStorage.setItem("refresh", res.refresh_token);
-        } catch (e) {
-            console.error('Sign In failed', e);
+        } catch (e: any) {
+            setError(`Sign In failed. ${e.response.data.error}`);
+            toggle();
         }
     };
 
     return (
+      <React.Fragment>
         <Dialog
             open={isOpen}
             onClose={() => setOpen(false)}
@@ -99,6 +107,9 @@ const AuthForm: FC<IProps> = ({ isOpen, setOpen, action, setUser }) => {
                 <Button type="submit">{action === actions.register ? 'Sign Up' : 'Sign In'}</Button>
             </DialogActions>
         </Dialog>
+
+        <Error isOpen={isModalOpen} toggle={toggle}>{error}</Error>
+      </React.Fragment>
     );
 };
 

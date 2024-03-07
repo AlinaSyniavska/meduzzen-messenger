@@ -5,6 +5,8 @@ import AuthForm from "../AuthForm/AuthForm.tsx";
 import {actions} from "../../constants";
 import {authService} from "../../services";
 import {IUser} from "../../interfaces";
+import useModal from "../../hooks/useModal.tsx";
+import Error from "../Error/Error.tsx";
 
 interface IProps {
     user: IUser | null;
@@ -14,6 +16,8 @@ interface IProps {
 const NavBar: FC<IProps> = ({user, setUser}) => {
     const [open, setOpen] = useState(false);
     const [action, setAction] = useState(actions.login);
+    const { isModalOpen, toggle } = useModal();
+    const [error, setError] = useState<string>('');
 
     const signUp = () => {
         setAction(actions.register);
@@ -35,7 +39,8 @@ const NavBar: FC<IProps> = ({user, setUser}) => {
             localStorage.removeItem('refresh');
             setUser(null);
         } catch (e) {
-            console.error('Sign Out failed', e);
+            setError(`Sign Out failed.`);
+            toggle();
         }
     };
 
@@ -71,6 +76,8 @@ const NavBar: FC<IProps> = ({user, setUser}) => {
                 action={action}
                 setUser={setUser}
             />
+
+            <Error isOpen={isModalOpen} toggle={toggle}>{error}</Error>
         </React.Fragment>
     );
 };
