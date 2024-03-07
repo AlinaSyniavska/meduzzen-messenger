@@ -1,8 +1,8 @@
 export interface IMessage {
-    avatar: string,
-    createdAt: string,
-    name: string,
-    text: string,
-    uid?: string,
     id?: string,
+    userId: string,
+    userName: string,
+    text: string,
+    attachedFiles?: string[],
+    createdAt?: string,
 }

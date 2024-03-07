@@ -31,7 +31,7 @@ const AuthForm: FC<IProps> = ({ isOpen, setOpen, action, setUser }) => {
             const id = (await userService.create(user)).data;
             console.log(id);
 
-            await signIn(user);
+            await signIn({email: user.email, password: user.password});
         } catch (e: any) {
             setError(`Registration failed. ${e.response.data.error}`);
             toggle();
@@ -44,6 +44,7 @@ const AuthForm: FC<IProps> = ({ isOpen, setOpen, action, setUser }) => {
             setUser(res.user as IUser);
 
             localStorage.setItem("userId", res.user?.id as string);
+            localStorage.setItem("userName", res.user?.name as string);
             localStorage.setItem("access", res.access_token);
             localStorage.setItem("refresh", res.refresh_token);
         } catch (e: any) {
@@ -65,11 +66,12 @@ const AuthForm: FC<IProps> = ({ isOpen, setOpen, action, setUser }) => {
                     const formJson = Object.fromEntries(
                         (formData as any).entries(),
                     );
+                    const name = formJson.name;
                     const email = formJson.email;
                     const password = formJson.password;
                     setOpen(false);
 
-                    action === actions.register ? signUp({ email, password }) : signIn({ email, password });
+                    action === actions.register ? signUp({name, email, password }) : signIn({ email, password });
                 },
             }}
         >
@@ -79,6 +81,21 @@ const AuthForm: FC<IProps> = ({ isOpen, setOpen, action, setUser }) => {
                     To {action === actions.register ? 'sign up' : 'sign in'} to this messenger, please enter your email
                     address and password here.
                 </DialogContentText>
+
+                {
+                  action === actions.register && <TextField
+                    autoFocus
+                    required
+                    margin="dense"
+                    id="name"
+                    name="name"
+                    label="Name"
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                  />
+                }
+
                 <TextField
                     autoFocus
                     required

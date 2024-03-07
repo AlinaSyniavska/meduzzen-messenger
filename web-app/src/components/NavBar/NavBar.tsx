@@ -35,6 +35,7 @@ const NavBar: FC<IProps> = ({user, setUser}) => {
         try {
             await authService.logout(accessToken);
             localStorage.removeItem('userId');
+            localStorage.removeItem('userName');
             localStorage.removeItem('access');
             localStorage.removeItem('refresh');
             setUser(null);

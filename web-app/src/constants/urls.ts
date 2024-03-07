@@ -5,6 +5,7 @@ const urls = {
     login: '/auth/login',
     logout: '/auth/logout',
     refresh: "/auth/refreshToken",
+    chats: '/chats',
 };
 
 export default baseURL;
