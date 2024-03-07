@@ -6,6 +6,9 @@ import {
     doc,
     getDoc,
     serverTimestamp,
+    query,
+    orderBy,
+    limit,
 } from 'firebase/firestore';
 
 import firebase from '../../firebase.js';
@@ -15,7 +18,7 @@ const db = getFirestore(firebase);
 
 export const chatService = {
     findAll: async () => {
-        const messages = await getDocs(collection(db, 'chats'));
+        const messages = await getDocs(query(collection(db, 'chats'), orderBy('createdAt'), limit(100)));
         const messagesArray = [];
 
         if (messages.empty) {
@@ -27,6 +30,7 @@ export const chatService = {
                     doc.data().userId,
                     doc.data().text,
                     doc.data().attachedFiles,
+                    doc.data().createdAt,
                 );
                 messagesArray.push({ ...user });
             });

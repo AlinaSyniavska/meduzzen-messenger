@@ -1,5 +1,5 @@
 class Message {
-    constructor(id, userId, text, attachedFiles) {
+    constructor(id, userId, text, attachedFiles, createdAt) {
         this.id = id;
         this.userId = userId;
         this.text = text;
