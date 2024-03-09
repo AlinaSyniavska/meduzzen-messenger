@@ -7,15 +7,15 @@ import style from './ChatBox.module.css';
 
 const ChatBox: FC = () => {
   const scroll = useRef<any>(null);
-  const {data: messages = [], isLoading, isFetching, isError, error,} = useGetMessagesQuery();
+  const {data: messages = [], isError, error,} = useGetMessagesQuery();
 
-    if (isLoading || isFetching) {
+/*    if (isLoading || isFetching) {
         return (
             <div className={style.text}>
                 Loading... <span ref={scroll}></span>
             </div>
         );
-    }
+    }*/
 
   if (isError) {
       console.log({ error });
