@@ -1,6 +1,6 @@
-const actions = {
+const authActions = {
     register: 'registration',
     login: 'login',
 };
 
-export { actions };
+export { authActions };

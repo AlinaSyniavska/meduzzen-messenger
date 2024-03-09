@@ -1,28 +1,31 @@
-import { FC, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { IMessage } from '../../interfaces';
-import { personHelper } from '../../helpers';
+import { commonHelper } from '../../helpers';
 import style from './Message.module.css';
 import { useDeleteMessageMutation } from '../../store';
+import {chatAction} from "../../constants";
 
 interface IProps {
     message: IMessage;
+    setMessageForUpdate: React.Dispatch<React.SetStateAction<IMessage>>,
+    setAction: React.Dispatch<React.SetStateAction<string>>,
 }
 
-const Message: FC<IProps> = ({ message }) => {
+const Message: FC<IProps> = ({ message, setMessageForUpdate, setAction }) => {
     const [deleteMessage] = useDeleteMessageMutation();
+    const userId = localStorage.getItem('userId');
 
     const initials = useMemo(
-        () => personHelper.getInitials(message.userName),
+        () => commonHelper.getInitials(message.userName),
         [message.userName],
     );
 
-    const userId = localStorage.getItem('userId');
-
     const editNote = () => {
-        console.log(message.text);
+        setAction(chatAction.update);
+        setMessageForUpdate(message);
     };
 
     const deleteNote = () => {

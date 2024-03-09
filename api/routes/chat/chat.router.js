@@ -14,7 +14,7 @@ chatRouter.post('/',
 chatRouter.get('/:id',
     chatMiddleware.isMessagePresent,
     chatController.getById);
-chatRouter.patch('/:id',
+chatRouter.put('/:id',
     commonMiddleware.isDataValid(chatValidator.updateDataValidator),
     chatMiddleware.isMessagePresent,
     chatController.update);

@@ -1,4 +1,4 @@
-const personHelper = {
+const commonHelper = {
     getInitials: (fullName: string): string => {
         let initials = '';
         fullName.split(' ').forEach(item => {
@@ -6,7 +6,8 @@ const personHelper = {
         })
 
         return initials;
-    }
+    },
+
 }
 
-export { personHelper }
+export { commonHelper }

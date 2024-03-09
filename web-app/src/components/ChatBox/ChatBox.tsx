@@ -1,42 +1,39 @@
-import {FC, useRef} from "react";
+import { FC, useRef, useState } from 'react';
 
-import { Message } from "../Message/Message";
-import { SendMessage } from "../SendMessage/SendMessage";
-import {useGetMessagesQuery} from "../../store";
+import { Message } from '../Message/Message';
+import { SendMessage } from '../SendMessage/SendMessage';
+import { useGetMessagesQuery } from '../../store';
 import style from './ChatBox.module.css';
+import {chatAction} from "../../constants";
+import {IMessage} from "../../interfaces";
 
 const ChatBox: FC = () => {
-  const scroll = useRef<any>(null);
-  const {data: messages = [], isError, error,} = useGetMessagesQuery();
+    const { data: messages = [], isError, error } = useGetMessagesQuery();
+    const scroll = useRef<any>(null);
+    const [messageForUpdate, setMessageForUpdate] = useState<IMessage>({} as IMessage);
+    const [action, setAction] = useState<string>(chatAction.create);
 
-/*    if (isLoading || isFetching) {
+    if (isError) {
+        console.log({ error });
         return (
-            <div className={style.text}>
-                Loading... <span ref={scroll}></span>
+            <div className={`${style.text}, ${style.error}`}>
+                Error was received...<span ref={scroll}></span>
             </div>
         );
-    }*/
-
-  if (isError) {
-      console.log({ error });
-      return (
-          <div className={`${style.text}, ${style.error}`}>
-              Error was received...<span ref={scroll}></span>
-          </div>
-      );
-  }
+    }
 
     return (
         <main className="chat-box">
             <div className="messages-wrapper">
                 {messages?.map((message) => (
-                    <Message key={message.id} message={message}/>
+                    <Message key={message.id} message={message} setMessageForUpdate={setMessageForUpdate} setAction={setAction}/>
                 ))}
+                <div ref={scroll} style={{
+                  height: 70,
+                }}></div>
             </div>
 
-            <span ref={scroll}></span>
-            <SendMessage scroll={scroll} />
-            {/*<SendMessage />*/}
+            <SendMessage scroll={scroll} action={action} messageForUpdate={messageForUpdate} setAction={setAction}/>
         </main>
     );
 };

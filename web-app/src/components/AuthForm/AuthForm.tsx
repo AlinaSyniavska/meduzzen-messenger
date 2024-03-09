@@ -11,7 +11,7 @@ import {
 
 import {authService, userService} from '../../services';
 import { IUser } from '../../interfaces';
-import {actions} from "../../constants";
+import {authActions} from "../../constants";
 import Error from "../Error/Error.tsx";
 import useModal from "../../hooks/useModal.tsx";
 
@@ -71,19 +71,19 @@ const AuthForm: FC<IProps> = ({ isOpen, setOpen, action, setUser }) => {
                     const password = formJson.password;
                     setOpen(false);
 
-                    action === actions.register ? signUp({name, email, password }) : signIn({ email, password });
+                    action === authActions.register ? signUp({name, email, password }) : signIn({ email, password });
                 },
             }}
         >
-            <DialogTitle>{action === actions.register ? 'Sign Up' : 'Sign In'}</DialogTitle>
+            <DialogTitle>{action === authActions.register ? 'Sign Up' : 'Sign In'}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    To {action === actions.register ? 'sign up' : 'sign in'} to this messenger, please enter your email
+                    To {action === authActions.register ? 'sign up' : 'sign in'} to this messenger, please enter your email
                     address and password here.
                 </DialogContentText>
 
                 {
-                  action === actions.register && <TextField
+                  action === authActions.register && <TextField
                     autoFocus
                     required
                     margin="dense"
@@ -121,7 +121,7 @@ const AuthForm: FC<IProps> = ({ isOpen, setOpen, action, setUser }) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => setOpen(false)}>Cancel</Button>
-                <Button type="submit">{action === actions.register ? 'Sign Up' : 'Sign In'}</Button>
+                <Button type="submit">{action === authActions.register ? 'Sign Up' : 'Sign In'}</Button>
             </DialogActions>
         </Dialog>
 

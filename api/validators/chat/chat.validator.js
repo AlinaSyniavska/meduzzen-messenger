@@ -8,9 +8,9 @@ export const chatValidator = {
         attachedFiles: Joi.array().items(Joi.string()).required(),
     }),
     updateDataValidator: Joi.object({
-        // userId: Joi.string(),
-        // userName: Joi.string(),
+        userId: Joi.string(),
+        userName: Joi.string(),
         text: Joi.string(),
-        // attachedFiles: Joi.array().items(Joi.string()),
+        attachedFiles: Joi.array().items(Joi.string()),
     }),
 };
