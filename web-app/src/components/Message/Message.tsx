@@ -5,12 +5,15 @@ import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IMessage } from '../../interfaces';
 import { personHelper } from '../../helpers';
 import style from './Message.module.css';
+import { useDeleteMessageMutation } from '../../store';
 
 interface IProps {
     message: IMessage;
 }
 
 const Message: FC<IProps> = ({ message }) => {
+    const [deleteMessage] = useDeleteMessageMutation();
+
     const initials = useMemo(
         () => personHelper.getInitials(message.userName),
         [message.userName],
@@ -19,11 +22,11 @@ const Message: FC<IProps> = ({ message }) => {
     const userId = localStorage.getItem('userId');
 
     const editNote = () => {
-        console.log(message.text)
+        console.log(message.text);
     };
 
     const deleteNote = () => {
-        console.log(message.id)
+        deleteMessage(message.id);
     };
 
     return (
@@ -38,15 +41,17 @@ const Message: FC<IProps> = ({ message }) => {
                 <p className="user-message">{message.text}</p>
             </div>
 
-            <div className={style.btnControl}>
-                <div className={style.btn} onClick={editNote}>
-                    <FontAwesomeIcon icon={faPen} title={'Edit'} />
-                </div>
+            {message.userId === userId && (
+                <div className={style.btnControl}>
+                    <div className={style.btn} onClick={editNote}>
+                        <FontAwesomeIcon icon={faPen} title={'Edit'} />
+                    </div>
 
-                <div className={style.btn} onClick={deleteNote}>
-                    <FontAwesomeIcon icon={faTrash} title={'Delete'} />
+                    <div className={style.btn} onClick={deleteNote}>
+                        <FontAwesomeIcon icon={faTrash} title={'Delete'} />
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
