@@ -1,12 +1,13 @@
 import React, { FC, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {faPen, faTrash} from '@fortawesome/free-solid-svg-icons';
 
 import { IMessage } from '../../interfaces';
 import { commonHelper } from '../../helpers';
 import style from './Message.module.css';
 import { useDeleteMessageMutation } from '../../store';
 import {chatAction} from "../../constants";
+import {ImageList, ImageListItem} from "@mui/material";
 
 interface IProps {
     message: IMessage;
@@ -55,8 +56,28 @@ const Message: FC<IProps> = ({ message, setMessageForUpdate, setAction }) => {
                     </div>
                 </div>
             )}
+
+
+
+            {
+                message.attachedFiles &&  <ImageList sx={{ width: 200, height: 160 }} cols={3} rowHeight={50}>
+                  {message.attachedFiles.map((item, index) => (
+                    <ImageListItem key={index}>
+                        <img
+                          srcSet={`${item}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                          src={`${item}?w=164&h=164&fit=crop&auto=format`}
+                          alt={''}
+                          loading="lazy"
+                        />
+                    </ImageListItem>
+                  ))}
+              </ImageList>
+            }
+
+
+
         </div>
-    );
+    )
 };
 
 export { Message };

@@ -11,7 +11,8 @@ const App: FC = () => {
     return (
         <div className="App">
             <NavBar user={user} setUser={setUser}/>
-            {!user ? <Welcome /> : <ChatBox />}
+            {/*{!user ? <Welcome /> : <ChatBox />}*/}
+            <ChatBox />
         </div>
     );
 };
