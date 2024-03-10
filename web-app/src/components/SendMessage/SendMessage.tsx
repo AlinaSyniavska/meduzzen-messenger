@@ -32,6 +32,12 @@ const SendMessage: FC<IProps> = ({
     const [attachedFileUrls, setAttachedFileUrls] = useState<string[]>([]);
 
     useEffect(() => {
+        if (action === chatAction.update) {
+            setMessage(messageForUpdate?.text as string);
+        }
+    }, [action]);
+
+    useEffect(() => {
         const send = async () => {
            await addMessage({
                 userId: localStorage.getItem('userId'),
@@ -82,12 +88,6 @@ const SendMessage: FC<IProps> = ({
             );
         }
     };
-
-    useEffect(() => {
-        if (action === chatAction.update) {
-            setMessage(messageForUpdate?.text as string);
-        }
-    }, [action]);
 
     const sendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -150,15 +150,19 @@ const SendMessage: FC<IProps> = ({
                     onChange={handleMultipleChange}
                     type="file"
                     style={{ display: 'none' }}
+                    disabled={action === chatAction.update}
                 />
+
                 <label
                     htmlFor="icon-button-file"
                     style={{ backgroundColor: '#7cc5d9' }}
                 >
                     <IconButton
+                      className={style.iconBtn}
                         color="default"
                         aria-label="upload picture"
                         component="span"
+                        disabled={action === chatAction.update}
                     >
                         <FontAwesomeIcon icon={faPaperclip} title={'Attach'} />
                     </IconButton>
