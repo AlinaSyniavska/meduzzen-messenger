@@ -86,8 +86,17 @@ input {
     max-width: calc(100% - 50px);
     box-shadow: -2px 2px 1px 1px #4c768d;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    /*gap: 20px;*/
     margin-bottom: 20px;
+
+    flex-direction: column;
+}
+
+.chat-bubble-top {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .chat-bubble.right {
@@ -129,7 +138,7 @@ input {
 /* send message */
 .send-message {
     position: fixed;
-    bottom: 0px;
+    bottom: 0;
     width: 100%;
     padding: 20px 30px;
     background-color: #4c768d;

@@ -1,0 +1,11 @@
+.btnControl {
+    padding-left: 40px;
+    height: inherit;
+    display: flex;
+    gap: 10px;
+}
+
+.btn:hover {
+    cursor: pointer;
+    opacity: .5;
+}

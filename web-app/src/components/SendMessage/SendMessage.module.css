@@ -1,0 +1,12 @@
+.progress {
+    color: #1c2c4c;
+    font-size: 12px;
+    font-weight: bold;
+    position: fixed;
+    right: 50px;
+    bottom: 0;
+}
+
+.iconBtn:hover {
+    color: #1c2c4c;
+}

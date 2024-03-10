@@ -2,7 +2,7 @@ import React, {Dispatch, FC, SetStateAction, useState} from "react";
 
 import style from './NavBar.module.css';
 import AuthForm from "../AuthForm/AuthForm.tsx";
-import {actions} from "../../constants";
+import {authActions} from "../../constants";
 import {authService} from "../../services";
 import {IUser} from "../../interfaces";
 import useModal from "../../hooks/useModal.tsx";
@@ -15,17 +15,17 @@ interface IProps {
 
 const NavBar: FC<IProps> = ({user, setUser}) => {
     const [open, setOpen] = useState(false);
-    const [action, setAction] = useState(actions.login);
+    const [action, setAction] = useState(authActions.login);
     const { isModalOpen, toggle } = useModal();
     const [error, setError] = useState<string>('');
 
     const signUp = () => {
-        setAction(actions.register);
+        setAction(authActions.register);
         setOpen(true);
     };
 
     const signIn = () => {
-        setAction(actions.login);
+        setAction(authActions.login);
         setOpen(true);
     };
 

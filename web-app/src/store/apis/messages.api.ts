@@ -28,27 +28,30 @@ export const messagesApi = createApi({
             }),
             invalidatesTags: [{ type: 'Chats', id: 'LIST' }],
         }),
-        /*getCurrentPerson: build.query<IPersonDTO, string>({
-            query: (id) => `Persons/${id}`,
-            providesTags: (result, error, id) => [{ type: 'Persons', id }],
+        deleteMessage: build.mutation({
+            query: (id) => ({
+                url: `chats/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: [{type: 'Chats', id: 'LIST'}],
         }),
-        updatePerson: build.mutation({
-            query: body => ({
-                url: `Persons/${body.id}`,
+        updateMessage: build.mutation({
+            query: ({id, body}) => ({
+                url: `chats/${id}`,
                 method: 'PUT',
                 body,
             }),
-            invalidatesTags: (result, error, arg) => [
-                { type: 'Persons', id: 'LIST' },
-                { type: 'Persons', id: arg.id }
+            invalidatesTags: (arg) => [
+                { type: 'Chats', id: 'LIST' },
+                { type: 'Chats', id: arg.id }
             ],
-        })*/
+        })
     })
 })
 
 export const {
     useGetMessagesQuery,
     useAddMessageMutation,
-    // useGetCurrentPersonQuery,
-    // useUpdatePersonMutation,
+    useDeleteMessageMutation,
+    useUpdateMessageMutation,
 } = messagesApi
