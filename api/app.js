@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.options('*', cors()); // include before other routes
+app.options('*', cors());
 // app.use(cors(_configureCors()));
 app.use(cors({
     origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
@@ -53,7 +53,7 @@ function _configureCors() {
             if (whitelist.includes(origin) || !origin) {
                 callback(null, true);
             } else {
-                callback(new Error('Not allowed by CORS 2222'));
+                callback(new Error('Not allowed by CORS'));
             }
         },
     };
