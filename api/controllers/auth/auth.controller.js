@@ -1,7 +1,15 @@
-import {getFirestore, collection, addDoc, deleteDoc, query, where, getDocs} from 'firebase/firestore';
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    deleteDoc,
+    query,
+    where,
+    getDocs,
+} from 'firebase/firestore';
 
-import firebase from "../../firebase.js";
-import {passwordService, tokenService} from "../../services/index.js";
+import firebase from '../../firebase.js';
+import { passwordService, tokenService } from '../../services/index.js';
 
 const db = getFirestore(firebase);
 
@@ -33,7 +41,10 @@ export const authController = {
         try {
             const { access_token } = req;
 
-            const data = query(collection(db, 'oauth'), where('access_token', '==', access_token));
+            const data = query(
+                collection(db, 'oauth'),
+                where('access_token', '==', access_token),
+            );
             const docSnap = await getDocs(data);
             docSnap.forEach((doc) => {
                 deleteDoc(doc.ref);

@@ -1,16 +1,15 @@
-import {FC, useState} from 'react';
+import { FC, useState } from 'react';
 
 import './App.css';
 import { ChatBox, NavBar, Welcome } from './components';
-import {IUser} from "./interfaces";
+import { IUser } from './interfaces';
 
 const App: FC = () => {
-
-  const [user, setUser] = useState<IUser | null>(null);
+    const [user, setUser] = useState<IUser | null>(null);
 
     return (
         <div className="App">
-            <NavBar user={user} setUser={setUser}/>
+            <NavBar user={user} setUser={setUser} />
             {!user ? <Welcome /> : <ChatBox />}
         </div>
     );

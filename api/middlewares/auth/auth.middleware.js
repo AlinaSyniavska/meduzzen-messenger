@@ -1,9 +1,15 @@
-import {getFirestore, collection, query, where, getDocs} from 'firebase/firestore';
+import {
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs,
+} from 'firebase/firestore';
 
-import firebase from "../../firebase.js";
-import {authValidator} from "../../validators/index.js";
-import CustomError from "../../errors/CustomError.js";
-import {tokenService, userService} from "../../services/index.js";
+import firebase from '../../firebase.js';
+import { authValidator } from '../../validators/index.js';
+import CustomError from '../../errors/CustomError.js';
+import { tokenService, userService } from '../../services/index.js';
 
 const db = getFirestore(firebase);
 
@@ -52,7 +58,10 @@ export const authMiddleware = {
             tokenService.checkToken(accessToken);
 
             const collectionRef = collection(db, 'oauth');
-            const q = query(collectionRef, where('access_token', '==', accessToken));
+            const q = query(
+                collectionRef,
+                where('access_token', '==', accessToken),
+            );
             const docSnap = await getDocs(q);
 
             if (!docSnap.docs[0]) {
