@@ -6,4 +6,3 @@ export const config = {
     AUTHORIZATION: process.env.AUTHORIZATION,
     CORS_WHITE_LIST: process.env.CORS_WHITE_LIST || '',
 };
-
